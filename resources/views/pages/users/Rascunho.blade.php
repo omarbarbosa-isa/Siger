@@ -1,0 +1,759 @@
+@extends('layouts.base')
+
+@section('content')
+
+<main class="app-main">
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <h1>Criar Utilizador</h1>
+
+            <a href="{{ route('users.index') }}" class="btn btn-outline-success mb-3">Voltar</a>
+
+            {{-- Bloco para exibir erros de validação --}}
+            @if ($errors->any())
+                <div class="alert alert-danger col-md-6">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <div class="col-md-12">
+                <div class="card card-success card-outline mb-4">
+                    <div class="card-header">
+                        <div class="card-title">Cadastro do Colaborador</div>
+                    </div>
+
+                    <form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <!-- Nome -->
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nome</label>
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            value="{{ old('name') }}"
+                                            required
+                                        />
+                                    </div>
+
+                                    <!-- Apelido -->
+                                    <div class="mb-3">
+                                        <label for="surname" class="form-label">Apelido (Surname)</label>
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            name="surname"
+                                            id="surname"
+                                            value="{{ old('surname') }}"
+                                            />
+                                    </div>
+
+                                    <!-- Username -->
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            name="username"
+                                            id="username"
+                                            value="{{ old('username') }}"
+                                            required
+                                            />
+                                    </div>
+
+                                    <!-- Categoria -->
+
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">Categoria</label>
+
+                                        <div class="btn-group" role="group" aria-label="Seleção de Categoria">
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="category"
+                                                id="category_cook"
+                                                value="Cozinheiro"
+                                                autocomplete="off"
+                                                {{ old('category') == 'Cozinheiro' ? 'checked' : '' }}
+                                            >
+                                            <label class="btn btn-outline-success" for="category_cook">Cozinheiro</label>
+
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="category"
+                                                id="category_waiter"
+                                                value="Atendente"
+                                                autocomplete="off"
+                                                {{ old('category') == 'Atendente' ? 'checked' : '' }}
+                                            >
+                                            <label class="btn btn-outline-success" for="category_waiter">Atendente</label>
+
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="category"
+                                                id="category_bartender"
+                                                value="Barman"
+                                                autocomplete="off"
+                                                {{ old('category') == 'Barman' ? 'checked' : '' }}
+                                            >
+                                            <label class="btn btn-outline-success" for="category_bartender">Barman</label>
+
+                                            <input
+                                                type="radio"
+                                                class="btn-check"
+                                                name="category"
+                                                id="category_other"
+                                                value="other"
+                                                autocomplete="off"
+                                                {{ old('category') == 'other' ? 'checked' : '' }}
+                                            >
+                                            <label class="btn btn-outline-success" for="category_other">Outro</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cargo -->
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Cargo</label>
+                                        <select class="form-select" name="role" id="role">
+                                            <option value="">Selecione...</option>
+                                            <option value="male" {{ old('role') == 'admin' ? 'selected' : '' }}>Adminastrador</option>
+                                            <option value="female" {{ old('role') == 'operator' ? 'selected' : '' }}>Operador</option>
+                                            <option value="other" {{ old('role') == 'guest' ? 'selected' : '' }}>Visitante</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Data de nascimento (Input Nativo) -->
+                                    <div class="mb-3">
+                                        <label for="birthdate" class="form-label">Data de Nascimento</label>
+                                        <input
+                                            class="form-control"
+                                            type="date"
+                                            name="birthdate"
+                                            id="birthdate"
+                                            value="{{ old('birthdate') }}"
+                                            />
+                                    </div>
+
+                                    <!-- Género -->
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">Género</label>
+
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="gender"
+                                                id="gender_male"
+                                                value="male"
+                                                {{ old('gender') == 'male' ? 'checked' : '' }}
+                                            >
+                                            <label class="form-check-label" for="gender_male">Masculino</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="gender"
+                                                id="gender_female"
+                                                value="female"
+                                                {{ old('gender') == 'female' ? 'checked' : '' }}
+                                            >
+                                            <label class="form-check-label" for="gender_female">Feminino</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="gender"
+                                                id="gender_other"
+                                                value="other"
+                                                {{ old('gender') == 'other' ? 'checked' : '' }}
+                                            >
+                                            <label class="form-check-label" for="gender_other">Outro</label>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                    <!-- Contacto -->
+                                    <div class="mb-3">
+                                        <label for="contact" class="form-label">Contacto</label>
+                                        <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">+258</span>
+                                        <input
+                                            class="form-control"
+                                            type="tel"
+                                            mask="00 000 0000"
+                                            maxlength="9"
+                                            pattern="[0-9]{2} [0-9]{3} [0-9]{4}"
+                                            oninput="this.value = this.value.replace(/[^0-9 ]/g, '')"
+                                            placeholder="8X XXX XXXX"
+                                            name="contact"
+                                            id="contact"
+                                            value="{{ old('contact') }}"
+                                            required
+                                            />
+                                    </div>
+
+                                    <!-- Endereço -->
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">Endereço</label>
+                                        <input
+                                            class="form-control"
+                                            type="text"
+                                            name="address"
+                                            id="address"
+                                            value="{{ old('address') }}"
+                                            />
+                                    </div>
+
+                                    <!-- Fotografia -->
+                                    <div class="mb-3">
+                                        <label for="photo" class="form-label">Foto de Perfil</label>
+                                        <input
+                                            class="form-control"
+                                            type="file"
+                                            id="photo"
+                                            name="photo"
+                                            accept="image/*"
+                                            />
+                                    </div>
+
+                                    <!-- E-mail -->
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">E-mail</label>
+                                        <input
+                                            class="form-control"
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            value="{{ old('email') }}"
+                                            required
+                                            />
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            required
+                                            />
+                                    </div>
+
+                                    <!-- Confirmação da Password -->
+                                    <div class="mb-3">
+                                        <label for="password_confirmation" class="form-label">Confirmar Password</label>
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            name="password_confirmation"
+                                            id="password_confirmation"
+                                            required
+                                            />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-outline-primary">Gravar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+//Meu codigoooooo
+
+@extends('layouts.base')
+
+@section('content')  <!-- Custom validation (criacao de users) -->
+                    <div class="col-lg-12">
+                      <div class="card card-info card-outline mb-4">
+                        <div class="card-header">
+                          <div class="card-title">Prencha os campos cuidadosamente</div>
+                    </div>
+                          <div class="card-body">
+
+                        <form method="POST" action="{{ route('users.store') }}">
+                              @csrf
+
+                            <div class="row g-3">
+                              <div class="col-md-6">
+                                <label for="name" class="form-label">Nome</label>
+                                <input
+                                class="form-control"
+                                  type="text"
+                                  Name="name"
+                                  id="name"
+                                  value="{{ old('name') }}"
+                                  placeholder="Omar"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                        </div>
+                              <div class="col-md-6">
+                                <label for="surname" class="form-label">Sobrenome</label>
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  Name="surname"
+                                  id="surname"
+                                  value="{{ old('surname') }}"
+                                  placeholder="Barbosa"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="username" class="form-label">Nome de usuário</label>
+                                <div class="input-group has-validation">
+                                  <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                  <input
+                                  class="form-control"
+                                    type="text"
+                                    name="username"
+                                    id="username"
+                                    value="{{ old('username') }}"
+                                    placeholder="Obarbosa"
+                                    aria-describedby="inputGroupPrepend"
+                                    required
+                                  />
+                                  <div class="invalid-feedback">Please choose a username.</div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="birth_date" class="form-label">Data de nascimento</label>
+                                <input
+                                  class="form-control"
+                                  type="date"
+                                  name="birth_date"
+                                  id="birth_date"
+                                  value="{{ old('birth_date') }}"
+                                  
+                                  required
+                                />
+                                <div class="invalid-feedback">Please provide a valid birth date.</div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="category" class="form-label">Categoria</label>
+                                <input
+                                  type="text"
+                                  name="category"
+                                  id="category"
+                                  value="{{ old('category') }}"
+                                  class="form-control"
+                                  placeholder="Administrador"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="role" class="form-label">Função</label>
+                                <input
+                                  type="text"
+                                  name="role"
+                                  id="role"
+                                  value="{{ old('role') }}"
+                                  class="form-control"
+                                  placeholder="Cozinheiro"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              <div class="col-md-6">
+                                  <label for="gender" class="form-label">Gênero</label>
+                                <select 
+                                class="form-select" 
+                                id="gender"
+                                name="gender" 
+                                required>
+                                  <option selected disabled value="">Escolher&hellip;</option>
+                                  <option>Feminino</option>
+                                  <option>Masculino</option>
+                                </select>
+
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="contact" class="form-label">Contacto</label>
+                                   <div class="input-group mb-3">
+                                     <span class="input-group-text" id="basic-addon1">+258</span>
+                                     <input
+                                        class="form-control"
+                                        type="tel"
+                                        mask="000000000"
+                                        maxlength="11"
+                                        pattern="[0-9]{2} [0-9]{3} [0-9]{4}"
+                                        oninput="this.value = this.value.replace(/[^0-9 ]/g, '')"
+                                        placeholder="XX XXX XXXX"
+                                        name="contact"
+                                        id="contact"
+                                        value="{{ old('contact') }}"
+                                        required
+                                       />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <class=mb-3>
+                                <label for="adress" class="form-label">Morada</label>
+                                <select 
+                                class="form-select" 
+                                name="adress"
+                                id="adress"
+                                value="{{ old('adress') }}"
+                                required>
+                                  <option selected disabled value="">Escolher&hellip;</option>
+                                  <option>Maputo</option>
+                                  <option>Maputo-Provincia</option>
+                                  <option>Gaza</option>
+                                  <option>Inhambane</option>
+                                  <option>Sofala</option>
+                                  <option>Manica</option>
+                                  <option>Tete</option>
+                                  <option>Zambezia</option>
+                                  <option>Nampula</option>
+                                  <option>Niassa</option>
+                                  <option>Cabo Delgado</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a valid state.</div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="photo" class="form-label">Foto</label>
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  name="photo"
+                                  id="photo"
+                                  value="{{ old('photo') }}"
+                                  required
+                                />
+                                <div class="invalid-feedback">Please provide a valid file.</div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input
+                                class="form-control"
+                                  type="email"
+                                  name="email"
+                                  id="email"
+                                  value="{{ old('email') }}"
+                                  placeholder="Omar@example.com"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              <div class="col-md-12">
+                                <label for="password" class="form-label">Palavra-passe</label>
+                                <input
+                                class="form-control"
+                                  type="password"
+                                  name="password"
+                                  id="password"
+                                  value="{{ old('password') }}"
+                                  placeholder="password123"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="col-md-12">
+                                <label for="password_confirmation" class="form-label">Confirmação da palavra-passe</label>
+                                <input
+                                class="form-control"
+                                  type="password"
+                                  name="password_confirmation"
+                                  id="password_confirmation"
+                                  value="{{ old('password_confirmation') }}"
+                                  placeholder="password123"
+                                  required
+                                />
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                              </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer">
+                            <div confirmation="Are you sure you want to cancel? Any unsaved changes will be lost.">
+                            <a type="button" href="{{ route('users.index')}}" class="btn btn-danger mb-2">Cancelar</a>
+                            <button class="btn btn-outline-success mb-2" type="submit">Guardar</button>
+                          </div>
+                          </form>
+                      </div>
+                    </div>
+                      </div>
+              </div>
+      </main>
+
+ <main class="app-main">
+        <div class="app-content-header">
+                <div class="container-fluid">
+
+                    <h1>Ambiente de criação de Usuário</h1>
+
+
+
+  {{-- Bloco para exibir erros de validação --}}
+            @if ($errors->any())
+                <div class="alert alert-danger col-md-6">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+ <!-- Custom validation (criacao de users) -->
+              <div class="col-lg-12">
+                <div class="card card-info card-outline mb-4">
+                  <div class="card-header">
+                    <div class="card-title">Prencha os campos cuidadosamente</div>
+              </div>
+                    <div class="card-body">
+
+                  <form method="POST" action="{{ route('users.store') }}">
+                        @csrf
+
+                      <div class="row g-3">
+                        <div class="col-md-6">
+                          <label for="name" class="form-label">Nome</label>
+                          <input
+                           class="form-control"
+                            type="text"
+                            Name="name"
+                            id="name"
+                            value="{{ old('name') }}"
+                            placeholder="Omar"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                  </div>
+                        <div class="col-md-6">
+                          <label for="surname" class="form-label">Sobrenome</label>
+                          <input
+                            class="form-control"
+                            type="text"
+                            Name="surname"
+                            id="surname"
+                            value="{{ old('surname') }}"
+                            placeholder="Barbosa"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="username" class="form-label">Nome de usuário</label>
+                          <div class="input-group has-validation">
+                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            <input
+                             class="form-control"
+                              type="text"
+                              name="username"
+                              id="username"
+                              value="{{ old('username') }}"
+                              placeholder="Obarbosa"
+                              aria-describedby="inputGroupPrepend"
+                              required
+                            />
+                            <div class="invalid-feedback">Please choose a username.</div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="birth_date" class="form-label">Data de nascimento</label>
+                          <input
+                            class="form-control"
+                            type="date"
+                            name="birth_date"
+                            id="birth_date"
+                            value="{{ old('birth_date') }}"
+                            
+                            required
+                          />
+                          <div class="invalid-feedback">Please provide a valid birth date.</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="category" class="form-label">Categoria</label>
+                          <input
+                            type="text"
+                            name="category"
+                            id="category"
+                            value="{{ old('category') }}"
+                            class="form-control"
+                            placeholder="Administrador"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="role" class="form-label">Função</label>
+                          <input
+                            type="text"
+                            name="role"
+                            id="role"
+                            value="{{ old('role') }}"
+                            class="form-control"
+                            placeholder="Cozinheiro"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label">Gênero</label>
+                          <select 
+                          class="form-select" 
+                          id="gender"
+                          name="gender" 
+                          required>
+                            <option selected disabled value="">Escolher&hellip;</option>
+                            <option>Feminino</option>
+                            <option>Masculino</option>
+                          </select>
+
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="contact" class="form-label">Contacto</label>
+                                        <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">+258</span>
+                                        <input
+                                            class="form-control"
+                                            type="tel"
+                                            mask="000000000"
+                                            maxlength="9"
+                                            pattern="[0-9]{2} [0-9]{3} [0-9]{4}"
+                                            oninput="this.value = this.value.replace(/[^0-9 ]/g, '')"
+                                            placeholder="XX XXX XXXX"
+                                            name="contact"
+                                            id="contact"
+                                            value="{{ old('contact') }}"
+                                            required
+                                            />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+
+                        <div class="col-lg-12">
+                          <label for="adress" class="form-label">Morada</label>
+                          <select 
+                          class="form-select" 
+                          name="adress"
+                          id="adress"
+                          value="{{ old('adress') }}"
+                          required>
+                            <option selected disabled value="">Escolher&hellip;</option>
+                            <option>Maputo</option>
+                            <option>Maputo-Provincia</option>
+                            <option>Gaza</option>
+                            <option>Inhambane</option>
+                            <option>Sofala</option>
+                            <option>Manica</option>
+                            <option>Tete</option>
+                            <option>Zambezia</option>
+                            <option>Nampula</option>
+                            <option>Niassa</option>
+                            <option>Cabo Delgado</option>
+                          </select>
+                          <div class="invalid-feedback">Please select a valid state.</div>
+                        </div>
+                        <div class="col-md-6">
+                          <label for="photo" class="form-label">Foto</label>
+                          <input
+                            class="form-control"
+                            type="file"
+                            name="photo"
+                            id="photo"
+                            value="{{ old('photo') }}"
+                            required
+                          />
+                          <div class="invalid-feedback">Please provide a valid file.</div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <label for="email" class="form-label">Email</label>
+                          <input
+                           class="form-control"
+                            type="email"
+                            name="email"
+                            id="email"
+                            value="{{ old('email') }}"
+                            placeholder="Omar@example.com"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-12">
+                          <label for="password" class="form-label">Palavra-passe</label>
+                          <input
+                           class="form-control"
+                            type="password"
+                            name="password"
+                            id="password"
+                            value="{{ old('password') }}"
+                            placeholder="password123"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                          <div class="col-md-12">
+                          <label for="password_confirmation" class="form-label">Confirmação da palavra-passe</label>
+                          <input
+                           class="form-control"
+                            type="password"
+                            name="password_confirmation"
+                            id="password_confirmation"
+                            value="{{ old('password_confirmation') }}"
+                            placeholder="password123"
+                            required
+                          />
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div confirmation="Are you sure you want to cancel? Any unsaved changes will be lost.">
+                       <a type="button" href="{{ route('users.index')}}" class="btn btn-danger mb-2">Cancelar</a>
+                      <button class="btn btn-outline-success mb-2" type="submit">Guardar</button>
+                    </div>
+                    </form>
+                </div>
+              </div>
+                </div>
+        </div>
+</main>
+@endsection
+
+
